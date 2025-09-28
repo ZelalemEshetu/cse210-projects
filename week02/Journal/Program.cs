@@ -4,17 +4,18 @@ class Program
 {
     static void Main(string[] args)
     {
-        Journal myJournal = new Journal();
-        Prompt promptGenerator = new Prompt();
+        Journal journal = new Journal();
+        PromptGenerator promptGenerator = new PromptGenerator();
+
         bool running = true;
 
         while (running)
         {
-            Console.WriteLine("Journal Menu:");
+            Console.WriteLine("\nJournal Menu:");
             Console.WriteLine("1. Write a new entry");
-            Console.WriteLine("2. Display all entries");
-            Console.WriteLine("3. Load entries from file");
-            Console.WriteLine("4. Save entries to file");
+            Console.WriteLine("2. Display journal");
+            Console.WriteLine("3. Save journal to file");
+            Console.WriteLine("4. Load journal from file");
             Console.WriteLine("5. Quit");
             Console.Write("Choose an option: ");
             string choice = Console.ReadLine();
@@ -22,40 +23,43 @@ class Program
             switch (choice)
             {
                 case "1":
-                    Entry newEntry = new Entry();
-                    newEntry._date = DateTime.Now.ToShortDateString();
-                    newEntry._prompt = promptGenerator.GetRandomPrompt();
-                    Console.WriteLine(newEntry._prompt);
-                    newEntry._response = Console.ReadLine();
-                    myJournal.AddEntry(newEntry);
+                    string prompt = promptGenerator.GetRandomPrompt();
+                    Console.WriteLine($"\nPrompt: {prompt}");
+                    Console.Write("Your response: ");
+                    string response = Console.ReadLine();
+                    Entry entry = new Entry(prompt, response);
+                    journal.AddEntry(entry);
                     break;
 
                 case "2":
-                    myJournal.Display();
+                    Console.WriteLine("\nJournal Entries:");
+                    journal.DisplayEntries();
                     break;
 
                 case "3":
-                    Console.Write("Enter filename to load: ");
-                    string loadFile = Console.ReadLine();
-                    myJournal.LoadFromFile(loadFile);
+                    Console.Write("Enter file name to save: ");
+                    string saveFile = Console.ReadLine();
+                    journal.SaveToFile(saveFile);
                     break;
 
                 case "4":
-                    Console.Write("Enter filename to save: ");
-                    string saveFile = Console.ReadLine();
-                    myJournal.SaveToFile(saveFile);
+                    Console.Write("Enter file name to load: ");
+                    string loadFile = Console.ReadLine();
+                    journal.LoadFromFile(loadFile);
                     break;
 
                 case "5":
                     running = false;
                     break;
 
-            default:
-                    Console.WriteLine("Invalid option. Try again.");
+                default:
+                    Console.WriteLine("Invalid choice. Try again.");
                     break;
             }
-
-            Console.WriteLine();
         }
+
+        // 🌟 Extra Creativity: Count total entries
+        Console.WriteLine("\nThank you for using the Journal Program!");
+        Console.WriteLine("Feature: This program also counts your total entries.");
     }
 }

@@ -6,10 +6,16 @@ public class Entry
     public string _prompt;
     public string _response;
 
-    public void Display()
+    public Entry(string prompt, string response)
     {
-        Console.WriteLine($"Date: {_date}");
-        Console.WriteLine($"Prompt: {_prompt}");
-        Console.WriteLine($"Response: {_response}");
+        _date = DateTime.Now.ToShortDateString();
+        _prompt = prompt;
+        _response = response;
+    }
+
+    public string GetEntry()
+    {
+        return $"{_date} | Prompt: {_prompt}\nResponse: {_response}\n";
     }
 }
+

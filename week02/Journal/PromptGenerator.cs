@@ -1,19 +1,21 @@
 using System;
+using System.Collections.Generic;
 
-public class Prompt
+public class PromptGenerator
 {
-    private string[] _prompts = new string[]
+    private List<string> _prompts = new List<string>
     {
         "What was the best part of your day?",
-        "What did you learn today?",
-        "What made you happy today?",
-        "What challenged you today?"
+        "What is something you are grateful for today?",
+        "Who did you talk to today, and what did you discuss?",
+        "What is something you want to improve tomorrow?",
+        "Describe a moment when you felt the Spirit today."
     };
 
     public string GetRandomPrompt()
     {
-        Random rand = new Random();
-        int index = rand.Next(_prompts.Length);
+        Random random = new Random();
+        int index = random.Next(_prompts.Count);
         return _prompts[index];
     }
 }

@@ -11,47 +11,41 @@ public class Journal
         _entries.Add(entry);
     }
 
-    public void Display()
+    public void DisplayEntries()
     {
         foreach (Entry entry in _entries)
         {
-            entry.Display();
-            Console.WriteLine();
+            Console.WriteLine(entry.GetEntry());
         }
     }
 
-    public void SaveToFile(string filename)
+    public void SaveToFile(string fileName)
     {
-        using (StreamWriter outputFile = new StreamWriter(filename))
+        using (StreamWriter writer = new StreamWriter(fileName))
         {
             foreach (Entry entry in _entries)
             {
-                outputFile.WriteLine($"{entry._date}|{entry._prompt}|{entry._response}");
+                writer.WriteLine($"{entry._date}|{entry._prompt}|{entry._response}");
             }
         }
+        Console.WriteLine("Journal saved successfully.");
     }
 
-    public void LoadFromFile(string filename)
+    public void LoadFromFile(string fileName)
     {
-        if (File.Exists(filename))
+        _entries.Clear();
+        string[] lines = File.ReadAllLines(fileName);
+
+        foreach (string line in lines)
         {
-            string[] lines = File.ReadAllLines(filename);
-            foreach (string line in lines)
+            string[] parts = line.Split('|');
+            if (parts.Length == 3)
             {
-                string[] parts = line.Split('|');
-                if (parts.Length == 3)
-                {
-                    Entry entry = new Entry();
-                    entry._date = parts[0];
-                    entry._prompt = parts[1];
-                    entry._response = parts[2];
-                    _entries.Add(entry);
-                }
+                Entry entry = new Entry(parts[1], parts[2]);
+                entry._date = parts[0]; // keep original date
+                _entries.Add(entry);
             }
         }
-        else
-        {
-            Console.WriteLine("File not found.");
-        }
+        Console.WriteLine("Journal loaded successfully.");
     }
 }
