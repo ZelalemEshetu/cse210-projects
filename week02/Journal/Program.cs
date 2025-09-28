@@ -50,8 +50,7 @@ class Program
                     running = false;
                     break;
 
-
-                default:
+            default:
                     Console.WriteLine("Invalid option. Try again.");
                     break;
             }
