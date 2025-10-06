@@ -1,27 +1,38 @@
 public class Reference
 {
-    public string Book { get; private set; }
-    public int StartVerse { get; private set; }
-    public int? EndVerse { get; private set; }
+    private string _book;
+    private int _chapter;
+    private int _verseStart;
+    private int _verseEnd;
 
-    public Reference(string book, int startVerse)
+    // Constructor for a single verse
+    public Reference(string book, int chapter, int verse)
     {
-        Book = book;
-        StartVerse = startVerse;
-        EndVerse = null;
+        _book = book;
+        _chapter = chapter;
+        _verseStart = verse;
+        _verseEnd = verse;
     }
 
-    public Reference(string book, int startVerse, int endVerse)
+    // Constructor for verse range
+    public Reference(string book, int chapter, int verseStart, int verseEnd)
     {
-        Book = book;
-        StartVerse = startVerse;
-        EndVerse = endVerse;
+        _book = book;
+        _chapter = chapter;
+        _verseStart = verseStart;
+        _verseEnd = verseEnd;
     }
 
-    public override string ToString()
+    // Method to get formatted reference
+    public string GetReference()
     {
-        if (EndVerse.HasValue)
-            return $"{Book} {StartVerse}-{EndVerse}";
-        return $"{Book} {StartVerse}";
+        if (_verseStart == _verseEnd)
+        {
+            return $"{_book} {_chapter}:{_verseStart}";
+        }
+        else
+        {
+            return $"{_book} {_chapter}:{_verseStart}-{_verseEnd}";
+        }
     }
 }
