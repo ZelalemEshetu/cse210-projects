@@ -2,47 +2,44 @@ using System;
 
 public class Activity
 {
-    // Attributes
-    protected string _name;
+    protected string _activityName;
     protected string _description;
-    protected int _duration;
+    protected int _duration; // in seconds
 
-    // Constructor
     public Activity(string name, string description, int duration)
     {
-        _name = name;
+        _activityName = name;
         _description = description;
         _duration = duration;
     }
 
-    // Methods
-    public void DisplayStartingMessage()
+    public void StartActivity()
     {
-        Console.WriteLine($"Starting {_name}: {_description}");
-        Console.WriteLine($"Duration: {_duration} seconds.\n");
+        Console.WriteLine($"\nStarting {_activityName}...");
+        Console.WriteLine(_description);
+        ShowAnimation(3); // optional countdown before starting
     }
 
-    public void DisplayEndingMessage()
+    public void EndActivity()
     {
-        Console.WriteLine($"Finished {_name}.\n");
+        Console.WriteLine($"\nEnding {_activityName}. Good job!");
+        ShowAnimation(2); // optional
     }
 
-    public void ShowSpinner(int seconds)
+    protected void ShowAnimation(int seconds)
     {
         for (int i = 0; i < seconds; i++)
         {
-            Console.Write(".");
+            Console.Write("/");
             System.Threading.Thread.Sleep(500);
+            Console.Write("\b-");
+            System.Threading.Thread.Sleep(500);
+            Console.Write("\b\\");
+            System.Threading.Thread.Sleep(500);
+            Console.Write("\b|");
+            System.Threading.Thread.Sleep(500);
+            Console.Write("\b");
         }
         Console.WriteLine();
-    }
-
-    public void ShowCountDown(int seconds)
-    {
-        for (int i = seconds; i > 0; i--)
-        {
-            Console.WriteLine(i);
-            System.Threading.Thread.Sleep(1000);
-        }
     }
 }

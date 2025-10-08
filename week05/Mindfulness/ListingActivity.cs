@@ -3,52 +3,22 @@ using System.Collections.Generic;
 
 public class ListingActivity : Activity
 {
-    private int _count;
-    private List<string> _prompts;
+    public ListingActivity(string name, string description, int duration)
+        : base(name, description, duration) { }
 
-    public ListingActivity(string name, string description, int duration, List<string> prompts)
-        : base(name, description, duration)
+    public void DoListing()
     {
-        _prompts = prompts;
-        _count = 0;
-    }
-
-    public void Run()
-    {
-        DisplayStartingMessage();
-
-        string prompt = GetRandomPrompt();
-        Console.WriteLine($"Your prompt is: {prompt}");
-
-        List<string> responses = GetListFromUser();
-        _count = responses.Count;
-
-        Console.WriteLine($"You listed {_count} items.");
-        DisplayEndingMessage();
-    }
-
-    public string GetRandomPrompt()
-    {
-        if (_prompts.Count == 0)
-            return "No prompts available.";
-        Random rand = new Random();
-        int index = rand.Next(_prompts.Count);
-        return _prompts[index];
-    }
-
-    public List<string> GetListFromUser()
-    {
-        List<string> responses = new List<string>();
-        Console.WriteLine("Enter items one by one (type 'done' to finish):");
-
-        while (true)
+        StartActivity();
+        Console.WriteLine("List as many items as you can in your mind:");
+        List<string> items = new List<string>();
+        var endTime = DateTime.Now.AddSeconds(_duration);
+        while (DateTime.Now < endTime)
         {
-            Console.Write("> ");
-            string input = Console.ReadLine();
-            if (input.ToLower() == "done") break;
-            responses.Add(input);
+            string item = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(item))
+                items.Add(item);
         }
-
-        return responses;
+        Console.WriteLine($"You listed {items.Count} items!");
+        EndActivity();
     }
 }
